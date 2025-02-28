@@ -66,9 +66,9 @@ def send_email(receiver_email, email_content):
 
         # Créer le message
         message = MIMEMultipart()
-        message["From"] = f"Transmission Contact ORPI <{sender_email}>"
+        message["From"] = f"Transmission Contact ORPI Arcades <{sender_email}>"
         message["To"] = receiver_email
-        message["Subject"] = "Nouveau Contact ORPI"
+        message["Subject"] = "Nouveau Contact ORPI Arcades"
         message.attach(MIMEText(email_content, "plain"))
 
         # Établir la connexion SMTP et envoyer l'email
@@ -100,7 +100,7 @@ def main():
     st.set_page_config(page_title="Transmission Contact ORPI Arcades", page_icon=":telephone:")
     
     # Titre principal
-    st.title("Transmission contact ORPI")
+    st.title("Transmission contact ORPI Arcades")
     st.subheader("Formulaire de transmission")
     
     # Date du jour automatique
