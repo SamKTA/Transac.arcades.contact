@@ -37,6 +37,7 @@ def sauvegarder_dans_sheets(donnees):
             donnees["destinataire"],        # Ce contact est pour
             donnees["source"],              # Source
             donnees["canal"],               # Canal
+            donnees["type_contact"],        # Type contact
             donnees["nom_client"],          # Nom complet du client
             donnees["email_client"],        # Adresse e-mail
             donnees["telephone_client"],    # Téléphone
@@ -125,6 +126,10 @@ def main():
         canal = st.selectbox("Canal", 
                             options=["Appel téléphonique", "Passage agence"])
         
+        # Type contact
+        type_contact = st.selectbox("Type contact", 
+                                   options=["Acheteur", "Vendeur", "Acheteur mail SB"])
+        
         # Nom complet du client (obligatoire)
         nom_client = st.text_input("Nom complet du client *", placeholder="Nom et prénom")
         
@@ -156,6 +161,7 @@ def main():
                     "destinataire": destinataire,
                     "source": source,
                     "canal": canal,
+                    "type_contact": type_contact,
                     "nom_client": nom_client,
                     "email_client": email_client,
                     "telephone_client": telephone_client,
@@ -174,6 +180,7 @@ Email: {email_client}
 Téléphone: {telephone_client}
 
 Ce contact provient de {source} via {canal}.
+Type de contact : {type_contact}
 
 Commentaire : {commentaire}
 
