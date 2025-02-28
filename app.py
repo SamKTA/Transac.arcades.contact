@@ -97,7 +97,7 @@ def get_destinataire_email(destinataire):
 
 def main():
     # Configuration de la page
-    st.set_page_config(page_title="Transmission Contact ORPI", page_icon=":telephone:")
+    st.set_page_config(page_title="Transmission Contact ORPI Arcades", page_icon=":telephone:")
     
     # Titre principal
     st.title("Transmission contact ORPI")
