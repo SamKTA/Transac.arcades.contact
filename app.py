@@ -31,18 +31,18 @@ def sauvegarder_dans_sheets(donnees):
         # Ouvrir le document
         sheet_doc = client.open_by_key(SHEET_ID)
         
-        # Préparer les données à enregistrer
+        # Préparer les données à enregistrer (dans l'ordre des colonnes du Google Sheet)
         row_data = [
-            donnees["date"],                # Date réception du contact
-            donnees["assistante"],          # Assistante
-            donnees["destinataire"],        # Ce contact est pour
-            donnees["source"],              # Source
-            donnees["canal"],               # Canal
-            donnees["type_contact"],        # Type contact
-            donnees["nom_client"],          # Nom complet du client
-            donnees["email_client"],        # Adresse e-mail
-            donnees["telephone_client"],    # Téléphone
-            donnees["commentaire"]          # Commentaire
+            donnees["date"],                # A - Date réception du contact
+            donnees["assistante"],          # B - Assistante
+            donnees["destinataire"],        # C - Conseiller
+            donnees["source"],              # D - Source
+            donnees["canal"],               # E - Canal
+            donnees["type_contact"],        # F - Type contact
+            donnees["nom_client"],          # G - Nom complet du client
+            donnees["email_client"],        # H - Adresse e-mail
+            donnees["telephone_client"],    # I - Téléphone
+            donnees["commentaire"]          # J - Commentaire
         ]
         
         # 1. Sauvegarde dans la feuille "All"
@@ -54,10 +54,13 @@ def sauvegarder_dans_sheets(donnees):
         
         # 2. Sauvegarde dans la feuille du conseiller
         try:
-            # Simplifier le nom pour être compatible avec les noms de feuilles
+            # Utiliser la convention de nommage exacte des feuilles (prénom du conseiller)
             conseiller_sheet_name = donnees["destinataire"].split()[0]  # Prend juste le prénom
+            # Tentative d'accès à la feuille du conseiller
             conseiller_sheet = sheet_doc.worksheet(conseiller_sheet_name)
             conseiller_sheet.append_row(row_data)
+        except gspread.exceptions.WorksheetNotFound:
+            st.warning(f"Feuille '{conseiller_sheet_name}' non trouvée. Les données sont uniquement sauvegardées dans 'All'.")
         except Exception as e:
             st.warning(f"Impossible d'ajouter à la feuille '{conseiller_sheet_name}': {e}")
             
@@ -74,10 +77,10 @@ def send_email(receiver_email, email_data):
         # Configuration du serveur SMTP
         smtp_server = "smtp.gmail.com"
         port = 587
-        # À REMPLACER par ton adresse email
-        sender_email = "skita@orpi.com"
+        # Adresse email de l'expéditeur
+        sender_email = "contactpro.skdigital@gmail.com"
         # Mot de passe d'application Gmail
-        password = "qhlk kcvj ydsi focv"  # Mettre directement le mot de passe temporairement
+        password = "qhlk kcvj ydsi focv"
 
         # Préparation du contenu de l'email selon le template
         email_content = f"""Bonjour {email_data['destinataire']}, 
