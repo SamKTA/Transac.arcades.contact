@@ -79,8 +79,8 @@ def send_email(receiver_email, email_data):
         port = 587
         # Adresse email de l'expéditeur
         sender_email = "contactpro.skdigital@gmail.com"
-        # Mot de passe d'application Gmail
-        password = "qhlk kcvj ydsi focv"
+        # Nouveau mot de passe d'application Gmail
+        password = "nxti raqi vwwu zvng"
 
         # Préparation du contenu de l'email selon le template
         email_content = f"""Bonjour {email_data['destinataire']}, 
