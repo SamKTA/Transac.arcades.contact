@@ -9,6 +9,8 @@ from email.mime.multipart import MIMEMultipart
 
 # ID de la feuille Google Sheets pour les contacts
 CONTACT_SHEET_ID = "1f0x47zQrmCdo9GwF_q2wTOiP9jxEvMmLevY7xmDOp4A"
+# ID de la feuille Google Sheets pour le roulement (à remplacer par ton ID)
+ROULEMENT_SHEET_ID = "TON_ID_GOOGLE_SHEET_ROULEMENT"
 
 # Configuration de la page
 st.set_page_config(
