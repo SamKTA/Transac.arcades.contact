@@ -134,7 +134,8 @@ def get_destinataire_email(destinataire):
         "Arnaud SELLAM": "arnaud.sellam@orpi.com",
         "Benoît COUSTEAUD": "benoît.cousteaud@orpi.com",
         "Orianne BOULESTEIX": "orianne@orpi.com",
-        "Cyril REINICHE": "cyrilreiniche@orpi.com"
+        "Cyril REINICHE": "cyrilreiniche@orpi.com",
+        "Sam.test": "skita@orpi.com",
     }
     
     # Retourne l'email correspondant au conseiller sélectionné
@@ -170,7 +171,8 @@ def main():
                                        "Arnaud SELLAM",
                                        "Benoît COUSTEAUD",
                                        "Orianne BOULESTEIX",
-                                       "Cyril REINICHE"
+                                       "Cyril REINICHE",
+                                       "Sam.test"
                                    ])
         
         # Source
