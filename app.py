@@ -52,7 +52,7 @@ def sauvegarder_dans_sheets(donnees):
         st.error(f"Erreur lors de la sauvegarde dans Google Sheets : {e}")
         return False
 
-def send_email(receiver_email, email_content):
+def send_email(receiver_email, email_data):
     """
     Fonction pour envoyer un email avec gestion sécurisée des identifiants
     """
@@ -61,14 +61,30 @@ def send_email(receiver_email, email_content):
         smtp_server = "smtp.gmail.com"
         port = 587
         # À REMPLACER par ton adresse email et ton mot de passe d'application
-        sender_email = "skita@orpi.com"
-        password = st.secrets["qhlk kcvj ydsi focv"]
+        sender_email = "ton.email@gmail.com"
+        password = st.secrets["email_password"]
+
+        # Préparation du contenu de l'email selon le template
+        email_content = f"""Bonjour {email_data['destinataire']}, 
+
+Un contact {email_data['type_contact'].lower()} souhaite que tu le recontactes ou que tu confirmes un rendez-vous avec lui (à vérifier dans les commentaires). Voici le commentaire : 
+
+{email_data['commentaire']}
+
+Voici ces coordonnées : CONTACT {email_data['type_contact'].upper()}
+
+{email_data['nom_client']}
+{email_data['email_client']}
+{email_data['telephone_client']}
+
+Bon appel & bonne journée à toi !
+"""
 
         # Créer le message
         message = MIMEMultipart()
         message["From"] = f"Transmission Contact ORPI Arcades <{sender_email}>"
         message["To"] = receiver_email
-        message["Subject"] = "Nouveau Contact ORPI Arcades"
+        message["Subject"] = f"🔔 +1 CONTACT : {email_data['nom_client']} - {email_data['type_contact'].upper()}"
         message.attach(MIMEText(email_content, "plain"))
 
         # Établir la connexion SMTP et envoyer l'email
@@ -89,11 +105,22 @@ def get_destinataire_email(destinataire):
     """
     Retourne l'adresse email en fonction du destinataire sélectionné
     """
-    if destinataire == "Samuel KITA":
-        return "skita@orpi.com"
-    elif destinataire == "Laurie BLONDEAU":
-        return "lblondeau@orpi.com"
-    return ""
+    # Dictionnaire des conseillers avec leurs emails
+    conseillers = {
+        "Clément VIGREUX": "clement.vigreux@orpi.com",
+        "Pascal BOFFERON": "pascal.bofferon@orpi.com",
+        "Angélique CHENERAILLES": "angélique.chenerailles@orpi.com",
+        "Bertrand FOURNIER": "bertrand.fournier.agencedesarcades@orpi.com",
+        "Joshua BESSE": "joshua.besse@orpi.com",
+        "Irina GALOYAN": "irina@orpi.com",
+        "Arnaud SELLAM": "arnaud.sellam@orpi.com",
+        "Benoît COUSTEAUD": "benoît.cousteaud@orpi.com",
+        "Orianne BOULESTEIX": "orianne@orpi.com",
+        "Cyril REINICHE": "cyrilreiniche@orpi.com"
+    }
+    
+    # Retourne l'email correspondant au conseiller sélectionné
+    return conseillers.get(destinataire, "")
 
 def main():
     # Configuration de la page
@@ -115,7 +142,18 @@ def main():
         
         # Destinataire
         destinataire = st.selectbox("Ce contact est pour", 
-                                   options=["Samuel KITA", "Laurie BLONDEAU"])
+                                   options=[
+                                       "Clément VIGREUX",
+                                       "Pascal BOFFERON",
+                                       "Angélique CHENERAILLES",
+                                       "Bertrand FOURNIER",
+                                       "Joshua BESSE",
+                                       "Irina GALOYAN",
+                                       "Arnaud SELLAM",
+                                       "Benoît COUSTEAUD",
+                                       "Orianne BOULESTEIX",
+                                       "Cyril REINICHE"
+                                   ])
         
         # Source
         source = st.selectbox("Source", 
@@ -168,28 +206,10 @@ def main():
                     "commentaire": commentaire
                 }
                 
-                # Préparer le contenu de l'email
-                email_content = f"""Bonjour {destinataire},
-
-Nouveau contact transmis par {assistante} le {date_aujourd_hui}.
-
-Voici les coordonnées du client : 
-
-Nom: {nom_client}
-Email: {email_client}
-Téléphone: {telephone_client}
-
-Ce contact provient de {source} via {canal}.
-Type de contact : {type_contact}
-
-Commentaire : {commentaire}
-
-Bonne journée,
-"""
                 # Sauvegarder dans Google Sheets
                 if sauvegarder_dans_sheets(donnees):
                     # Envoi de l'email
-                    if send_email(email_destinataire, email_content):
+                    if send_email(email_destinataire, donnees):
                         st.success(f"Contact transmis avec succès à {destinataire} !")
                     else:
                         st.error("Problème lors de l'envoi de l'email")
