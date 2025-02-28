@@ -78,7 +78,7 @@ def send_email(receiver_email, email_data):
         smtp_server = "smtp.gmail.com"
         port = 587
         # Adresse email de l'expéditeur
-        sender_email = "contactpro.skdigital@gmail.com"
+        sender_email = "skita@orpi.com"
         # Nouveau mot de passe d'application Gmail
         password = "nxti raqi vwwu zvng"
 
