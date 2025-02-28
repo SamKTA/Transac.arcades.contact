@@ -62,7 +62,7 @@ def send_email(receiver_email, email_data):
         port = 587
         # À REMPLACER par ton adresse email et ton mot de passe d'application
         sender_email = "ton.email@gmail.com"
-        password = st.secrets["email_password"]
+        password = st.secrets["qhlk kcvj ydsi focv"]
 
         # Préparation du contenu de l'email selon le template
         email_content = f"""Bonjour {email_data['destinataire']}, 
