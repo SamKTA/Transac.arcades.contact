@@ -7,7 +7,7 @@ from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 
 # ID de la feuille Google Sheets - À REMPLACER par ton ID de Google Sheets
-SHEET_ID = "1f0x47zQrmCdo9GwF_q2wTOiP9jxEvMmLevY7xmDOp4A"
+SHEET_ID = "TON_ID_DE_GOOGLE_SHEET"
 
 def sauvegarder_dans_sheets(donnees):
     """
@@ -60,9 +60,10 @@ def send_email(receiver_email, email_data):
         # Configuration du serveur SMTP
         smtp_server = "smtp.gmail.com"
         port = 587
-        # À REMPLACER par ton adresse email et ton mot de passe d'application
+        # À REMPLACER par ton adresse email
         sender_email = "ton.email@gmail.com"
-        password = st.secrets["qhlk kcvj ydsi focv"]
+        # Mot de passe d'application Gmail
+        password = "qhlk kcvj ydsi focv"  # Mettre directement le mot de passe temporairement
 
         # Préparation du contenu de l'email selon le template
         email_content = f"""Bonjour {email_data['destinataire']}, 
@@ -116,8 +117,7 @@ def get_destinataire_email(destinataire):
         "Arnaud SELLAM": "arnaud.sellam@orpi.com",
         "Benoît COUSTEAUD": "benoît.cousteaud@orpi.com",
         "Orianne BOULESTEIX": "orianne@orpi.com",
-        "Cyril REINICHE": "cyrilreiniche@orpi.com",
-        "SAM.test": "skita@orpi.com",
+        "Cyril REINICHE": "cyrilreiniche@orpi.com"
     }
     
     # Retourne l'email correspondant au conseiller sélectionné
@@ -153,8 +153,7 @@ def main():
                                        "Arnaud SELLAM",
                                        "Benoît COUSTEAUD",
                                        "Orianne BOULESTEIX",
-                                       "Cyril REINICHE",
-                                       "SAM.test",
+                                       "Cyril REINICHE"
                                    ])
         
         # Source
