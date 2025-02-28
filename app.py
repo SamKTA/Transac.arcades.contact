@@ -7,11 +7,12 @@ from email.mime.multipart import MIMEMultipart
 from datetime import datetime
 
 # ID de la feuille Google Sheets - À REMPLACER par ton ID de Google Sheets
-SHEET_ID = "TON_ID_DE_GOOGLE_SHEET"
+SHEET_ID = "1f0x47zQrmCdo9GwF_q2wTOiP9jxEvMmLevY7xmDOp4A"
 
 def sauvegarder_dans_sheets(donnees):
     """
     Sauvegarde les données du formulaire dans un Google Sheet
+    dans la feuille "All" et dans la feuille correspondant au conseiller
     """
     try:
         # Configuration pour l'accès à Google Sheets
@@ -27,8 +28,8 @@ def sauvegarder_dans_sheets(donnees):
         # Authentification et accès au Google Sheet
         client = gspread.authorize(creds)
         
-        # Ouvrir la première feuille du document
-        sheet = client.open_by_key(SHEET_ID).sheet1
+        # Ouvrir le document
+        sheet_doc = client.open_by_key(SHEET_ID)
         
         # Préparer les données à enregistrer
         row_data = [
@@ -44,9 +45,22 @@ def sauvegarder_dans_sheets(donnees):
             donnees["commentaire"]          # Commentaire
         ]
         
-        # Ajouter une nouvelle ligne dans la feuille
-        sheet.append_row(row_data)
+        # 1. Sauvegarde dans la feuille "All"
+        try:
+            all_sheet = sheet_doc.worksheet("All")
+            all_sheet.append_row(row_data)
+        except Exception as e:
+            st.warning(f"Impossible d'ajouter à la feuille 'All': {e}")
         
+        # 2. Sauvegarde dans la feuille du conseiller
+        try:
+            # Simplifier le nom pour être compatible avec les noms de feuilles
+            conseiller_sheet_name = donnees["destinataire"].split()[0]  # Prend juste le prénom
+            conseiller_sheet = sheet_doc.worksheet(conseiller_sheet_name)
+            conseiller_sheet.append_row(row_data)
+        except Exception as e:
+            st.warning(f"Impossible d'ajouter à la feuille '{conseiller_sheet_name}': {e}")
+            
         return True
     except Exception as e:
         st.error(f"Erreur lors de la sauvegarde dans Google Sheets : {e}")
@@ -61,7 +75,7 @@ def send_email(receiver_email, email_data):
         smtp_server = "smtp.gmail.com"
         port = 587
         # À REMPLACER par ton adresse email
-        sender_email = "ton.email@gmail.com"
+        sender_email = "skita@orpi.com"
         # Mot de passe d'application Gmail
         password = "qhlk kcvj ydsi focv"  # Mettre directement le mot de passe temporairement
 
