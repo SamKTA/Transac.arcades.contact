@@ -61,8 +61,8 @@ def send_email(receiver_email, email_content):
         smtp_server = "smtp.gmail.com"
         port = 587
         # À REMPLACER par ton adresse email et ton mot de passe d'application
-        sender_email = "ton.email@gmail.com"
-        password = st.secrets["email_password"]
+        sender_email = "skita@orpi.com"
+        password = st.secrets[qhlk kcvj ydsi focv"]
 
         # Créer le message
         message = MIMEMultipart()
