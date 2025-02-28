@@ -62,7 +62,7 @@ def send_email(receiver_email, email_content):
         port = 587
         # À REMPLACER par ton adresse email et ton mot de passe d'application
         sender_email = "skita@orpi.com"
-        password = st.secrets[qhlk kcvj ydsi focv"]
+        password = st.secrets["qhlk kcvj ydsi focv"]
 
         # Créer le message
         message = MIMEMultipart()
