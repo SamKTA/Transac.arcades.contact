@@ -83,62 +83,34 @@ def get_sheets_client():
 def lire_roulements():
     """Lit l'état actuel des roulements depuis Google Sheets"""
     try:
-        st.write("Débogage: Connexion au client Google Sheets")
         client = get_sheets_client()
-        
-        st.write("Débogage: Ouverture du document avec ID:", SHEET_ID)
         doc = client.open_by_key(SHEET_ID)
         
-        # Liste toutes les feuilles
-        worksheets = doc.worksheets()
-        st.write("Débogage: Feuilles disponibles:", [ws.title for ws in worksheets])
+        # Lire les données de la feuille État
+        etat_sheet = doc.worksheet("État")
+        data = etat_sheet.get_all_records()
         
-        # Vérification de la feuille État
-        st.write("Débogage: Recherche de la feuille 'État'")
-        try:
-            etat_sheet = doc.worksheet("État")
-            st.write("Débogage: Feuille 'État' trouvée")
-            
-            # Récupérer les données brutes
-            all_values = etat_sheet.get_all_values()
-            st.write("Débogage: Valeurs brutes dans la feuille État:", all_values)
-            
-            # Récupérer les enregistrements
-            data = etat_sheet.get_all_records()
-            st.write("Débogage: Enregistrements dans la feuille État:", data)
-            
-            # Convertir en DataFrame
-            df = pd.DataFrame(data)
-            st.write("Débogage: DataFrame créé:", df)
-            
-            # Vérifier les types présents
-            if 'Type' in df.columns:
-                st.write("Débogage: Types trouvés:", df['Type'].tolist())
-                
-                # Vérifier si les types attendus sont présents
-                for type_attendu in ["VENDEURS PROJET VENTE", "ACQUÉREURS", "VENDEURS PAS DE PROJET"]:
-                    if type_attendu in df['Type'].values:
-                        st.write(f"Débogage: '{type_attendu}' trouvé dans les données")
-                    else:
-                        st.warning(f"Débogage: '{type_attendu}' NON trouvé dans les données")
-            else:
-                st.warning("Débogage: Colonne 'Type' non trouvée dans le DataFrame")
-        except Exception as e:
-            st.error(f"Débogage: Erreur lors de l'accès à la feuille 'État': {e}")
+        # Convertir en DataFrame
+        df = pd.DataFrame(data)
         
-        # Vérification de la feuille Indisponibilités
-        st.write("Débogage: Recherche de la feuille 'Indisponibilités'")
+        # Gestion sécurisée de la feuille Indisponibilités
         try:
             indispo_sheet = doc.worksheet("Indisponibilités")
-            st.write("Débogage: Feuille 'Indisponibilités' trouvée")
-            indispo_data = indispo_sheet.get_all_records()
-            indispo_df = pd.DataFrame(indispo_data)
-            st.write("Débogage: DataFrame d'indisponibilités créé:", indispo_df)
+            # Obtenir toutes les valeurs, y compris les en-têtes
+            all_values = indispo_sheet.get_all_values()
+            
+            # Créer un DataFrame à partir des données brutes
+            if len(all_values) > 1:  # S'il y a des lignes de données après les en-têtes
+                headers = all_values[0]
+                rows = all_values[1:]
+                indispo_df = pd.DataFrame(rows, columns=headers)
+            else:
+                # Créer un DataFrame vide avec les bonnes colonnes
+                indispo_df = pd.DataFrame(columns=["Conseiller", "Début", "Fin", "Raison"])
         except Exception as e:
-            st.error(f"Débogage: Erreur lors de l'accès à la feuille 'Indisponibilités': {e}")
+            # En cas d'erreur, créer un DataFrame vide
             indispo_df = pd.DataFrame(columns=["Conseiller", "Début", "Fin", "Raison"])
         
-        # Retourner les DataFrames créés
         return df, indispo_df
     except Exception as e:
         st.error(f"Erreur lors de la lecture des roulements : {e}")
