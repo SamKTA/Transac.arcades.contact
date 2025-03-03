@@ -33,26 +33,21 @@ if "formulaire_soumis" not in st.session_state:
 
 # Liste des conseillers et leurs noms complets
 CONSEILLERS = {
-    "Catherine": "Catherine DUPONT",  # À remplacer par les noms réels
-    "Antoine": "Antoine MARTIN",
-    "Mélissa": "Mélissa ROUX",
-    "Nicolas": "Nicolas BERNARD",
-    "Naomi": "Naomi PETIT",
-    "Fayçal": "Fayçal DURAND",
-    "Damien": "Damien LEROY",
-    "Mathilde": "Mathilde MOREAU"
+    "Clément": "Clément VIREUX",  # À remplacer par les noms réels
+    "Pascal": "Pascal BOFFERON",
+    "Angélique": "Angélique CHENERAILLES",
+    "Bertrand": "Bertrand FOURNIER",
+    "Joshua": "Joshua BESSE",
+    "Irina": "Irina GALOYAN",
+    "Arnaud": "Arnaud SELLAM",
+    "Benoît": "Benoît COUSTEAUD",
+    "Orianne": "Orianne BOULESTEIX",
+    "Cyril": "Cyril REINICHE",
+    "Sam.test": "Sam.test"
 }
 
 # Liste des emails des conseillers
 EMAILS_CONSEILLERS = {
-    "Catherine DUPONT": "catherine@orpi.com",
-    "Antoine MARTIN": "antoine@orpi.com",
-    "Mélissa ROUX": "melissa@orpi.com",
-    "Nicolas BERNARD": "nicolas@orpi.com",
-    "Naomi PETIT": "naomi@orpi.com",
-    "Fayçal DURAND": "faycal@orpi.com",
-    "Damien LEROY": "damien@orpi.com",
-    "Mathilde MOREAU": "mathilde@orpi.com",
     "Clément VIGREUX": "clement.vigreux@orpi.com",
     "Pascal BOFFERON": "pascal.bofferon@orpi.com",
     "Angélique CHENERAILLES": "angélique.chenerailles@orpi.com",
