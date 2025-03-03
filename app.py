@@ -167,11 +167,11 @@ def est_disponible(conseiller, indispo_df):
 def obtenir_prochain_conseiller(type_roulement, dernier_conseiller, indispo_df):
     """Détermine le prochain conseiller dans le roulement"""
     if type_roulement == "VENDEURS PROJET VENTE":
-        order = ["Clément", "Pascal", "Angélique", "Bertrand", "Joshua", "Irina", "Arnaud", "Benoît", "Orianne", "Cyril", "Sam.test"]
+        order = ["Clément", "Pascal", "Angélique", "Bertrand", "Cyril", "Irina", "Joshua", "Benoît", "Orianne", "Arnaud", "Sam.test"]
     elif type_roulement == "ACQUÉREURS":
-        order = ["Clément", "Pascal", "Angélique", "Bertrand", "Joshua", "Irina", "Arnaud", "Benoît", "Orianne", "Cyril", "Sam.test"]
+        order = ["Bertrand", "Irina", "Angélique", "Clément", "Joshua", "Benoît", "Arnaud", "Pascal", "Orianne", "Cyril", "Sam.test"]
     elif type_roulement == "VENDEURS PAS DE PROJET":
-        order = ["Clément", "Pascal", "Angélique", "Bertrand", "Joshua", "Irina", "Arnaud", "Benoît", "Orianne", "Cyril", "Sam.test"]
+        order = ["Cyril", "Pascal", "Arnaud", "Bertrand", "Joshua", "Irina", "Angélique", "Benoît", "Orianne", "Clément", "Sam.test"]
     else:
         return None
     
