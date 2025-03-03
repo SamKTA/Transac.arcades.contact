@@ -8,8 +8,7 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
 # ID de la feuille Google Sheets pour les contacts
-CONTACT_SHEET_ID = "1f0x47zQrmCdo9GwF_q2wTOiP9jxEvMmLevY7xmDOp4A"
-
+SHEET_ID = "1f0x47zQrmCdo9GwF_q2wTOiP9jxEvMmLevY7xmDOp4A"
 
 # Configuration de la page
 st.set_page_config(
