@@ -7,7 +7,7 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 
-# ID de la feuille Google Sheets pour les contacts
+# ID de la feuille Google Sheets (utilisé pour les contacts et le roulement)
 SHEET_ID = "1f0x47zQrmCdo9GwF_q2wTOiP9jxEvMmLevY7xmDOp4A"
 
 # Configuration de la page
@@ -84,7 +84,7 @@ def lire_roulements():
     """Lit l'état actuel des roulements depuis Google Sheets"""
     try:
         client = get_sheets_client()
-        doc = client.open_by_key(ROULEMENT_SHEET_ID)
+        doc = client.open_by_key(SHEET_ID)  # Utilisation de SHEET_ID au lieu de ROULEMENT_SHEET_ID
         
         # Lire les données de la feuille État
         etat_sheet = doc.worksheet("État")
@@ -113,7 +113,7 @@ def mettre_a_jour_roulement(type_roulement, conseiller):
     """Met à jour le roulement dans Google Sheets"""
     try:
         client = get_sheets_client()
-        doc = client.open_by_key(ROULEMENT_SHEET_ID)
+        doc = client.open_by_key(SHEET_ID)  # Utilisation de SHEET_ID au lieu de ROULEMENT_SHEET_ID
         
         # Mettre à jour l'état
         etat_sheet = doc.worksheet("État")
@@ -202,7 +202,7 @@ def sauvegarder_dans_sheets(donnees):
         client = get_sheets_client()
         
         # Ouvrir le document
-        sheet_doc = client.open_by_key(CONTACT_SHEET_ID)
+        sheet_doc = client.open_by_key(SHEET_ID)  # Utilisation de SHEET_ID au lieu de CONTACT_SHEET_ID
         
         # Préparer les données à enregistrer (dans l'ordre des colonnes du Google Sheet)
         row_data = [
@@ -381,7 +381,7 @@ def page_roulement():
             if submitted:
                 try:
                     client = get_sheets_client()
-                    doc = client.open_by_key(ROULEMENT_SHEET_ID)
+                    doc = client.open_by_key(SHEET_ID)  # Utilisation de SHEET_ID au lieu de ROULEMENT_SHEET_ID
                     indispo_sheet = doc.worksheet("Indisponibilités")
                     
                     indispo_sheet.append_row([
