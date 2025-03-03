@@ -6,6 +6,7 @@ from datetime import datetime
 import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+import streamlit as st
 
 # ID de la feuille Google Sheets (utilisé pour les contacts et le roulement)
 SHEET_ID = "1f0x47zQrmCdo9GwF_q2wTOiP9jxEvMmLevY7xmDOp4A"
@@ -315,7 +316,7 @@ def page_roulement():
     roulements_df, indispo_df = lire_roulements()
     
     # Afficher les trois options de roulement
-    st.header("Sélectionner le type de contact")
+    st.markdown('<h3 style="background-color: yellow; padding: 10px; border-radius: 5px;">Étape 1 : sélectionner le type de contact</h3>', unsafe_allow_html=True)
     
     col1, col2, col3 = st.columns(3)
     
