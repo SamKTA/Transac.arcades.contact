@@ -21,7 +21,7 @@ st.set_page_config(
 
 # Initialiser les variables de session
 if "page" not in st.session_state:
-    st.session_state.page = "accueil"  # Changer pour commencer à la page d'accueil
+    st.session_state.page = "accueil"  # Commence par la page d'accueil
 
 if "conseiller_selectionne" not in st.session_state:
     st.session_state.conseiller_selectionne = None
@@ -29,11 +29,12 @@ if "conseiller_selectionne" not in st.session_state:
 if "type_roulement" not in st.session_state:
     st.session_state.type_roulement = None
 
-if "type_contact_hors_roulement" not in st.session_state:
-    st.session_state.type_contact_hors_roulement = None  # Nouvelle variable
-
 if "formulaire_soumis" not in st.session_state:
     st.session_state.formulaire_soumis = False
+
+# Nouvelle variable pour le type de contact hors roulement
+if "type_contact_hors_roulement" not in st.session_state:
+    st.session_state.type_contact_hors_roulement = None
 
 # Liste des conseillers et leurs noms complets
 CONSEILLERS = {
@@ -409,7 +410,6 @@ def page_roulement():
                     st.error(f"Erreur lors de l'ajout de l'indisponibilité : {e}")
 
 def page_accueil():
-    """Affiche la page d'accueil avec les deux options principales"""
     st.title("Gestion des contacts ORPI Arcades")
     
     st.write("Choisissez le mode de transmission du contact :")
@@ -417,13 +417,13 @@ def page_accueil():
     col1, col2 = st.columns(2)
     
     with col1:
-        if st.button("📊 Interne aux roulements", key="btn_roulement", use_container_width=True):
+        if st.button("Interne aux roulements", use_container_width=True):
             st.session_state.page = "roulement"
             st.experimental_rerun()
     
     with col2:
-        if st.button("🔍 Hors roulement", key="btn_hors_roulement", use_container_width=True):
-            st.session_state.page = "hors_roulement"
+        if st.button("Formulaire direct", use_container_width=True):
+            st.session_state.page = "formulaire"
             st.experimental_rerun()
 
 def page_hors_roulement():
@@ -602,7 +602,8 @@ def main():
         page_accueil()
     elif st.session_state.page == "roulement":
         page_roulement()
-    elif st.session_state.page == "hors_roulement":
-        page_hors_roulement()
     elif st.session_state.page == "formulaire":
         page_formulaire()
+
+if __name__ == "__main__":
+    main()
