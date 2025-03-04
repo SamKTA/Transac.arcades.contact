@@ -21,13 +21,16 @@ st.set_page_config(
 
 # Initialiser les variables de session
 if "page" not in st.session_state:
-    st.session_state.page = "roulement"
+    st.session_state.page = "accueil"  # Changer pour commencer à la page d'accueil
 
 if "conseiller_selectionne" not in st.session_state:
     st.session_state.conseiller_selectionne = None
 
 if "type_roulement" not in st.session_state:
     st.session_state.type_roulement = None
+
+if "type_contact_hors_roulement" not in st.session_state:
+    st.session_state.type_contact_hors_roulement = None  # Nouvelle variable
 
 if "formulaire_soumis" not in st.session_state:
     st.session_state.formulaire_soumis = False
@@ -405,6 +408,61 @@ def page_roulement():
                 except Exception as e:
                     st.error(f"Erreur lors de l'ajout de l'indisponibilité : {e}")
 
+def page_accueil():
+    """Affiche la page d'accueil avec les deux options principales"""
+    st.title("Gestion des contacts ORPI Arcades")
+    
+    st.write("Choisissez le mode de transmission du contact :")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        if st.button("📊 Interne aux roulements", key="btn_roulement", use_container_width=True):
+            st.session_state.page = "roulement"
+            st.experimental_rerun()
+    
+    with col2:
+        if st.button("🔍 Hors roulement", key="btn_hors_roulement", use_container_width=True):
+            st.session_state.page = "hors_roulement"
+            st.experimental_rerun()
+
+def page_hors_roulement():
+    """Affiche la page de sélection pour les contacts hors roulement"""
+    st.title("Contact hors roulement")
+    
+    # Bouton retour
+    if st.button("← Retour à l'accueil"):
+        st.session_state.page = "accueil"
+        st.experimental_rerun()
+    
+    st.write("Veuillez sélectionner le type de contact et le conseiller :")
+    
+    # Choix du type de contact
+    type_contact = st.radio("Type de contact :", 
+                           ["Acquéreur bien précis", "Vendeur secteur"])
+    
+    # Menu déroulant pour sélectionner le conseiller
+    destinataire_options = list(EMAILS_CONSEILLERS.keys())
+    destinataire = st.selectbox("Sélectionner le conseiller :", 
+                               options=destinataire_options)
+    
+    # Bouton pour continuer vers le formulaire
+    if st.button("Continuer vers le formulaire", use_container_width=True):
+        st.session_state.conseiller_selectionne = destinataire
+        
+        # Stocker le type de contact
+        if type_contact == "Acquéreur bien précis":
+            st.session_state.type_contact_hors_roulement = "Acheteur"
+        else:
+            st.session_state.type_contact_hors_roulement = "Vendeur"
+        
+        # Pas de type_roulement puisque c'est hors roulement
+        st.session_state.type_roulement = None
+        
+        # Aller au formulaire
+        st.session_state.page = "formulaire"
+        st.experimental_rerun()
+
 # Page du formulaire de contact
 def page_formulaire():
     """Affiche la page du formulaire de contact"""
@@ -452,8 +510,19 @@ def page_formulaire():
                             options=["Appel téléphonique", "Passage agence"])
         
         # Type contact
-        type_contact = st.selectbox("Type contact", 
-                                   options=["Acheteur", "Vendeur", "Acheteur mail SB"])
+        type_contact_options = ["Acheteur", "Vendeur", "Acheteur mail SB"]
+        if st.session_state.type_contact_hors_roulement:
+        # Préselectionner le type de contact en fonction du choix fait sur la page hors_roulement
+            try:
+                type_contact_index = type_contact_options.index(st.session_state.type_contact_hors_roulement)
+            except ValueError:
+                type_contact_index = 0
+            type_contact = st.selectbox("Type contact", 
+                               options=type_contact_options,
+                               index=type_contact_index)
+        else:
+            type_contact = st.selectbox("Type contact", 
+                               options=type_contact_options)
         
         # Nom complet du client (obligatoire)
         nom_client = st.text_input("Nom complet du client *", placeholder="Nom et prénom")
@@ -529,10 +598,11 @@ def page_formulaire():
 def main():
     """Fonction principale de l'application"""
     # Afficher la page demandée
-    if st.session_state.page == "roulement":
+    if st.session_state.page == "accueil":
+        page_accueil()
+    elif st.session_state.page == "roulement":
         page_roulement()
+    elif st.session_state.page == "hors_roulement":
+        page_hors_roulement()
     elif st.session_state.page == "formulaire":
         page_formulaire()
-
-if __name__ == "__main__":
-    main()
