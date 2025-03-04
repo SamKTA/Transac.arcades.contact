@@ -422,8 +422,8 @@ def page_accueil():
             st.experimental_rerun()
     
     with col2:
-        if st.button("Formulaire direct", use_container_width=True):
-            st.session_state.page = "formulaire"
+        if st.button("Hors roulement", use_container_width=True):
+            st.session_state.page = "hors_roulement"  # Page à créer
             st.experimental_rerun()
 
 def page_hors_roulement():
@@ -455,9 +455,6 @@ def page_hors_roulement():
             st.session_state.type_contact_hors_roulement = "Acheteur"
         else:
             st.session_state.type_contact_hors_roulement = "Vendeur"
-        
-        # Pas de type_roulement puisque c'est hors roulement
-        st.session_state.type_roulement = None
         
         # Aller au formulaire
         st.session_state.page = "formulaire"
@@ -511,18 +508,23 @@ def page_formulaire():
         
         # Type contact
         type_contact_options = ["Acheteur", "Vendeur", "Acheteur mail SB"]
+
         if st.session_state.type_contact_hors_roulement:
-        # Préselectionner le type de contact en fonction du choix fait sur la page hors_roulement
+            #Préselectionner le type de contact en fonction du choix fait sur la page hors_roulement
             try:
                 type_contact_index = type_contact_options.index(st.session_state.type_contact_hors_roulement)
             except ValueError:
                 type_contact_index = 0
+    
             type_contact = st.selectbox("Type contact", 
                                options=type_contact_options,
                                index=type_contact_index)
+    
+    # Réinitialiser après utilisation
+            st.session_state.type_contact_hors_roulement = None
         else:
             type_contact = st.selectbox("Type contact", 
-                               options=type_contact_options)
+                                       options=type_contact_options)
         
         # Nom complet du client (obligatoire)
         nom_client = st.text_input("Nom complet du client *", placeholder="Nom et prénom")
@@ -602,8 +604,7 @@ def main():
         page_accueil()
     elif st.session_state.page == "roulement":
         page_roulement()
+    elif st.session_state.page == "hors_roulement":
+        page_hors_roulement()
     elif st.session_state.page == "formulaire":
         page_formulaire()
-
-if __name__ == "__main__":
-    main()
