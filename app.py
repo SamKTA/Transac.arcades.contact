@@ -21,7 +21,7 @@ st.set_page_config(
 
 # Initialiser les variables de session
 if "page" not in st.session_state:
-    st.session_state.page = "accueil"  # Commence par la page d'accueil
+    st.session_state.page = "accueil"  
 
 if "conseiller_selectionne" not in st.session_state:
     st.session_state.conseiller_selectionne = None
@@ -32,9 +32,6 @@ if "type_roulement" not in st.session_state:
 if "formulaire_soumis" not in st.session_state:
     st.session_state.formulaire_soumis = False
 
-# Nouvelle variable pour le type de contact hors roulement
-if "type_contact_hors_roulement" not in st.session_state:
-    st.session_state.type_contact_hors_roulement = None
 
 # Liste des conseillers et leurs noms complets
 CONSEILLERS = {
@@ -422,8 +419,8 @@ def page_accueil():
             st.experimental_rerun()
     
     with col2:
-        if st.button("Hors roulement", use_container_width=True):
-            st.session_state.page = "hors_roulement"  # Page à créer
+        if st.button("Formulaire direct", use_container_width=True):
+            st.session_state.page = "formulaire"
             st.experimental_rerun()
 
 def page_hors_roulement():
@@ -597,6 +594,7 @@ def page_formulaire():
                     st.error("Problème lors de la sauvegarde des données")
 
 # Fonction principale
+
 def main():
     """Fonction principale de l'application"""
     # Afficher la page demandée
@@ -604,7 +602,5 @@ def main():
         page_accueil()
     elif st.session_state.page == "roulement":
         page_roulement()
-    elif st.session_state.page == "hors_roulement":
-        page_hors_roulement()
     elif st.session_state.page == "formulaire":
         page_formulaire()
